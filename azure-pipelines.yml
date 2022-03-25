@@ -4,18 +4,40 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- main
+  - main
 
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+  steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: "16.x"
+      displayName: "Install Node.js"
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+    - script: |
+        npm install -g mbt
+        npm install
+      displayName: "install dependencies"
+
+    - script: |
+        ls
+      displayName: "Display files"
+
+    - script: |
+        pwd
+      displayName: "Current folder"
+
+    - script: |
+        mbt build -p=cf -t ./
+      displayName: "build mta"
+
+    - script: |
+        ls
+      displayName: "Display files"
+
+    - task: PublishPipelineArtifact@1
+      displayName: "Publish Pipeline Artifact"
+      inputs:
+        targetPath: "./2607-bookdesk_1.0.0.mtar"
+        artifact: bookdesksrv

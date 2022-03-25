@@ -13,6 +13,10 @@
   "devDependencies": {
     "sqlite3": "^5.0.2"
   },
+  "engines": {
+    "node": "^16",
+    "npm": "7.13.0"
+  },
   "scripts": {
     "start": "cds run"
   },
@@ -40,5 +44,18 @@
       "no-console": "off",
       "require-atomic-updates": "off"
     }
+  },
+  "cds": {
+      "hana": {
+          "deploy-format": "hdbtable"
+      },
+      "features": {
+          "fiori_preview": true
+      },
+      "requires": {
+          "db" : {
+              "kind": "hana"
+          }
+      }
   }
 }
