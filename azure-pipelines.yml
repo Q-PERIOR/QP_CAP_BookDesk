@@ -9,35 +9,35 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-  steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: "16.x"
-      displayName: "Install Node.js"
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "16.x"
+    displayName: "Install Node.js"
 
-    - script: |
-        npm install -g mbt
-        npm install
-      displayName: "install dependencies"
+  - script: |
+      npm install -g mbt
+      npm install
+    displayName: "install dependencies"
 
-    - script: |
-        ls
-      displayName: "Display files"
+  - script: |
+      ls
+    displayName: "Display files"
 
-    - script: |
-        pwd
-      displayName: "Current folder"
+  - script: |
+      pwd
+    displayName: "Current folder"
 
-    - script: |
-        mbt build -p=cf -t ./
-      displayName: "build mta"
+  - script: |
+      mbt build -p=cf -t ./
+    displayName: "build mta"
 
-    - script: |
-        ls
-      displayName: "Display files"
+  - script: |
+      ls
+    displayName: "Display files"
 
-    - task: PublishPipelineArtifact@1
-      displayName: "Publish Pipeline Artifact"
-      inputs:
-        targetPath: "./2607-bookdesk_1.0.0.mtar"
-        artifact: bookdesksrv
+  - task: PublishPipelineArtifact@1
+    displayName: "Publish Pipeline Artifact"
+    inputs:
+      targetPath: "./2607-bookdesk_1.0.0.mtar"
+      artifact: bookdesksrv
