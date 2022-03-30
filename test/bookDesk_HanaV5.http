@@ -1,0 +1,66 @@
+### Service Document
+GET https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/book-desk
+
+### Service $metadata document
+GET https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/book-desk/$metadata
+
+### Get all Offices
+GET https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/book-desk/Office
+
+### Get the Munich Office (1) (1 - Munich, 2 - Cluj, 3 - London)
+GET https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/book-desk/Office(1)
+#OR GET https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/book-desk/Office/1
+
+### Get all Offices with corresponding desks
+GET https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/book-desk/Office?$expand=desks
+
+### Get all Desks
+GET https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/book-desk/Desk
+
+### Get all Desks of Munich(1)
+# Parameter office_ID: ID of a specific office (1 - Munich, 2 - Cluj, 3 - London)
+GET https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/book-desk/Desk?$filter=office_ID eq 1
+ 
+### OR Get office Munich(1) with all desks (1 - Munich, 2 - Cluj, 3 - London)
+GET https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/book-desk/Office(1)?$expand=desks
+
+### Get all Booking
+GET https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/book-desk/Booking
+
+### Get all desks of a specific office by name
+https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/request/readDesksByString(officeName='Munich Office')?$format=json
+#OR https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/book-desk/Office?$filter=name eq 'Munich Office'&$expand=desks&$format=json
+
+### Get all available desks for a specific day (and a specific office)
+# Parameter officeName: Name of a specific office (Munich Office, Cluj Office, London Office or * for all)
+# Parameter date: Date to look for available desks format in YYYY-MM-DD
+# Example below for all offices 
+GET https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/request/readAvailableDesks(officeName='Munich Office',date=2022-02-15)?$format=json
+
+### Book Desk 101 of munich with ID
+# User cannot book two desks in one day (error: You already booked a table for ...)
+# and desk are always booked for the whole day and cannot be booked twice for one day (error: Desk already booked!)
+# and desk needs to be in the assigned office (error: Desk does not belong to office!)
+# Parameter office_ID: ID of a specific office (1 - Munich, 2 - Cluj, 3 - London)
+# Parameter desk_ID: ID of a specific Desk (Check other requests to get desks)
+# Parameter user: Name of the user that wants to book the desk
+# Parameter date: Date for the booking
+POST https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/book-desk/Booking
+Content-Type: application/json
+
+{
+    "office_ID": 1,
+    "desk_ID":101,
+    "user":"Jimmy",
+    "date":"2022-02-15"
+}
+
+### Book Desk 101 (M_1) of munich with name instead of ID
+# User cannot book two desks in one day (error: You already booked a table for ...)
+# and desk are always booked for the whole day and cannot be booked twice for one day (error: Desk already booked!)
+# and desk needs to be in the assigned office (error: Desk does not belong to office!)
+# Parameter officeName: Name of a specific office (Munich Office, Cluj Office, London Office)
+# Parameter deskName: Name of a specific Desk (M_1, M_2, C_1, L_1, etc.)
+# Parameter user: Name of the user that wants to book the desk
+# Parameter date: Date for the booking
+GET https://bookdesk-srv-reliable-tiger-mv.cfapps.us10.hana.ondemand.com/request/bookTable(officeName='Munich%20Office',deskName='M_1',user='Jimmy',date=2022-02-19)

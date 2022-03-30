@@ -1,0 +1,39 @@
+### Service Document
+
+GET http://localhost:4004/book-desk
+
+### Service $metadata document
+GET http://localhost:4004/book-desk/$metadata
+
+### Browsing Offices
+GET http://localhost:4004/book-desk/Office
+
+### Browsing Munich Office
+GET http://localhost:4004/book-desk/Office(1)
+
+### Browsing Desks
+GET http://localhost:4004/book-desk/Desk
+
+### Browsing Offices with all corresponding desks
+GET http://localhost:4004/book-desk/Office?$expand=desks
+
+### Browsing Desks of Munich
+GET http://localhost:4004/book-desk/Desk?$filter=office_ID%20eq%201
+
+### Browsing
+GET http://localhost:4004/book-desk/Office?$select=name,country&$expand=desks
+
+### Test
+GET http://localhost:4004/book-desk/Desk?$filter=office/name eq 'Munich Office'
+
+### Book Desk 101 of munich
+POST http://localhost:4004/book-desk/Booking
+Content-Type: application/json
+
+{
+    "office_ID": 1,
+    "desk_ID":103,
+    "user":"Jimmy",
+    "date":"2022-02-15"
+}
+
