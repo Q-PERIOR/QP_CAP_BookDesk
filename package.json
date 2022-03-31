@@ -1,18 +1,23 @@
 {
-  "name": "qp_cap_bookdesk",
-  "version": "1.0.0",
+  "name": "bookdesk",
+  "version": "1.0.1",
   "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
+  "repository": {
+    "type": "git",
+    "url": "<Add your repository here>"
+  },
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
     "@sap/cds": "^5",
     "@sap/cds-odata-v2-adapter-proxy": "^1.8.9",
-    "@sap/hana-client": "^2.10.15",
-    "express": "^4",
-    "hdb": "^0.18.3"
+    "express": "^4.17.2",
+    "hdb": "^0.18.3",
+    "passport": "^0.5.2",
+    "supertest": "^6.2.2"
   },
   "devDependencies": {
+    "jest": "^27.5.1",
     "sqlite3": "^5.0.2"
   },
   "engines": {
@@ -20,15 +25,15 @@
     "npm": "7.13.0"
   },
   "scripts": {
-    "start": "cds run"
+    "start": "cds run",
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
     "env": {
       "es2020": true,
       "node": true,
-      "jest": true,
-      "mocha": true
+      "jest": true
     },
     "globals": {
       "SELECT": true,
