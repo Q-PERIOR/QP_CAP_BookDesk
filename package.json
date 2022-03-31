@@ -53,22 +53,16 @@
     }
   },
   "cds": {
-    "features": {
-      "fiori_preview": true
-    },
-    "requires": {
-      "db": {
-        "kind": "sql",
-        "credentials": {
-          "database": "bookdesk.db"
-        }
+      "hana": {
+          "deploy-format": "hdbtable"
+      },
+      "features": {
+          "fiori_preview": true
+      },
+      "requires": {
+          "db" : {
+              "kind": "hana"
+          }
       }
-    },
-    "hana": {
-      "deploy-format": "hdbtable"
-    },
-    "[production]": {
-      "kind": "hana"
-    }
   }
 }
