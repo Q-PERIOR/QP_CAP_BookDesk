@@ -13,6 +13,7 @@ module.exports = cds.service.impl(srv => {
 
     srv.on ('readAvailableDesks', _readAvailableDesks)
     srv.on ('readDesksByString', _readDesksByString)
+    srv.on ('readDesksByID', _readDesksByID)
     srv.on ('bookTable', _bookTable)
 
     async function _readAvailableDesks (req) {
@@ -67,6 +68,36 @@ module.exports = cds.service.impl(srv => {
         
         officeID = SELECT `ID` .from `Office` .where `UPPER(name) = UPPER(${req.data.officeName})`
         desks = SELECT .from `Desk` .where `office_ID = ${officeID}`  
+
+        // Execute query
+        const Query = await cds.run(desks)
+
+        let array = []
+
+        // Put results into array and return
+        Query.forEach( item => {
+            array.push(item)
+        })
+        
+        return array 
+    }
+
+    async function _readDesksByID (req) {
+        const db = await cds.connect.to('db')
+        const { Office, Desk } = db.entities 
+        
+        let officeID
+        let desks
+        var errorOccured = false
+
+        /* Check user input */
+        if (!req.data.officeID) {
+            req.error(401, "Office is missing")
+            errorOccured = true
+        }
+
+        // Select all desks for the office
+        desks = SELECT .from `Desk` .where `office_ID = ${req.data.officeID}`  
 
         // Execute query
         const Query = await cds.run(desks)
