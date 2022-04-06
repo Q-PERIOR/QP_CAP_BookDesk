@@ -91,7 +91,7 @@ module.exports = cds.service.impl(srv => {
         let availableDesks
 
         // Select all available desks
-        if (req.data.officeID === '*') {
+        if (!req.data.officeID) {
             todaysBookings = SELECT `Desk_ID` .from `Booking` .where `date = ${req.data.date}`
             availableDesks = SELECT .from `Desk` .where `ID not in ${todaysBookings}`     
         }
