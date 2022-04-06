@@ -13,6 +13,7 @@ module.exports = cds.service.impl(srv => {
 
     srv.on ('readAvailableDesks', _readAvailableDesks)
     srv.on ('readDesksByString', _readDesksByString)
+    srv.on ('readAvailableDesksByID', _readAvailableDesksByID)
     srv.on ('readDesksByID', _readDesksByID)
     srv.on ('bookTable', _bookTable)
 
@@ -80,6 +81,38 @@ module.exports = cds.service.impl(srv => {
         })
         
         return array 
+    }
+
+    async function _readAvailableDesks (req) {
+        const db = await cds.connect.to('db')
+        const { Booking, Desk } = db.entities 
+
+        let todaybookings
+        let availableDesks
+
+        // Select all available desks
+        if (req.data.officeID === '*') {
+            todaysBookings = SELECT `Desk_ID` .from `Booking` .where `date = ${req.data.date}`
+            availableDesks = SELECT .from `Desk` .where `ID not in ${todaysBookings}`     
+        }
+        // Select available desk of a specific office
+        else 
+        {  
+            todaysBookings = SELECT `Desk_ID` .from `Booking` .where `office_ID = ${req.data.officeID} and date = ${req.data.date}`
+            availableDesks = SELECT .from `Desk` .where `office_ID = ${officeID} and ID not in ${todaysBookings}` 
+        }
+        
+        // Execute query
+        const Query = await cds.run(availableDesks)
+
+        let array = []
+
+        // Put results into array and return
+        Query.forEach( item => {
+            array.push(item)
+        })
+        
+        return array
     }
 
     async function _readDesksByID (req) {
