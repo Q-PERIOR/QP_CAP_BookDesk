@@ -99,7 +99,7 @@ module.exports = cds.service.impl(srv => {
         else 
         {  
             todaysBookings = SELECT `Desk_ID` .from `Booking` .where `office_ID = ${req.data.officeID} and date = ${req.data.date}`
-            availableDesks = SELECT .from `Desk` .where `office_ID = ${officeID} and ID not in ${todaysBookings}` 
+            availableDesks = SELECT .from `Desk` .where `office_ID = ${req.data.officeID} and ID not in ${todaysBookings}` 
         }
         
         // Execute query
