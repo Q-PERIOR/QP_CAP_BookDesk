@@ -83,7 +83,7 @@ module.exports = cds.service.impl(srv => {
         return array 
     }
 
-    async function _readAvailableDesks (req) {
+    async function _readAvailableDesksByID (req) {
         const db = await cds.connect.to('db')
         const { Booking, Desk } = db.entities 
 
